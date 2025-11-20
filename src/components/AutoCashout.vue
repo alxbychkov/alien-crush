@@ -34,7 +34,7 @@ function handleChange(event) {
     </div>
 
     <!-- Слайдер для настройки значения (показывается, если включен) -->
-    <div v-if="enabled" class="slider-container">
+    <div class="slider-container">
       <input
         type="range"
         class="slider"
@@ -54,7 +54,9 @@ function handleChange(event) {
 
 <style scoped>
 .auto-cashout {
-  margin-bottom: 20px;
+  padding: 25px 30px;
+  background: rgba(190, 146, 255, 0.1);
+  border-radius: 28px 28px 0px 0px;
 }
 
 .auto-cashout-header {
@@ -72,8 +74,8 @@ function handleChange(event) {
 }
 
 .toggle {
-  width: 48px;
-  height: 28px;
+  width: 42px;
+  height: 26px;
   background: rgba(255, 255, 255, 0.1);
   border-radius: 14px;
   position: relative;
@@ -86,17 +88,18 @@ function handleChange(event) {
 
 .toggle-slider {
   position: absolute;
-  top: 3px;
+  top: 2px;
   left: 3px;
   width: 22px;
   height: 22px;
-  background: white;
   border-radius: 50%;
+  background: linear-gradient(180deg, #ffffff 24.31%, rgba(255, 255, 255, 0.62) 100%);
+  box-shadow: -2.08537px 0px 8.34146px rgba(0, 0, 0, 0.25);
   transition: transform 0.3s ease;
 }
 
 .toggle.active .toggle-slider {
-  transform: translateX(20px);
+  transform: translateX(14px);
 }
 
 .toggle-label {
@@ -106,32 +109,41 @@ function handleChange(event) {
 }
 
 .toggle-title {
-  font-size: 14px;
-  font-weight: 600;
   color: #ffffff;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 100%;
 }
 
 .toggle-subtitle {
-  font-size: 11px;
-  color: #888;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+  color: rgba(255, 255, 255, 0.4);
 }
 
 /* Значение кэшаута */
 .cashout-value {
-  font-size: 24px;
-  font-weight: 700;
-  color: #666;
   transition: all 0.3s ease;
+  font-family: 'MikroSuper', sans-serif;
+  font-weight: 800;
+  font-size: 31.2418px;
+  line-height: 80%;
+  text-transform: uppercase;
+  background: linear-gradient(180deg, #ffc700 0%, #ffffff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+  text-shadow: 0px 0px 10px rgba(252, 227, 6, 0.7);
 }
 
-.cashout-value.active {
-  color: #fbbf24;
-  text-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
-}
+.cashout-value.active {}
 
 /* Слайдер */
 .slider-container {
   margin-top: 16px;
+  display: none;
 }
 
 .slider {

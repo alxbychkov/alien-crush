@@ -1,10 +1,11 @@
 <script setup>
 import './assets/styles/main.css'
-import GameScreen from './components/GameScreen.vue'
+import Footer from './components/common/Footer.vue'
 </script>
 
 <template>
-  <GameScreen />
+  <router-view />
+  <Footer />
 </template>
 
 <style>

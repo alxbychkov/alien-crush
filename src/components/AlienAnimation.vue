@@ -133,6 +133,11 @@ onMounted(() => {
         ref="alien"
         :class="{ flying: gameState === 'flying', crashed: gameState === 'crashed' }"
       >
+        
+        <div class="capet">
+          <img src="@/assets/capet.webp" />
+        </div>
+
         <svg
           xmlns="http://www.w3.org/2000/svg"
           xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -190,6 +195,20 @@ onMounted(() => {
   justify-content: center;
 }
 
+.capet {
+  display: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -20px;
+  z-index: -1;
+  mix-blend-mode: plus-lighter;
+}
+
+.capet img {
+  width: 100%;
+}
+
 .alien {
   position: relative;
   z-index: 2;
@@ -243,7 +262,7 @@ onMounted(() => {
 /* Свечение снизу */
 .glow-bottom {
   position: absolute;
-  bottom: -40px;
+  bottom: 0;
   left: 50%;
   transform: translateX(-50%);
   width: 150px;

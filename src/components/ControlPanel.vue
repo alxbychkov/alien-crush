@@ -29,9 +29,18 @@ const gameStore = useGameStore()
 <style scoped>
 .control-panel {
   border-radius: 30px;
-
   background: rgba(137, 137, 137, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.09);
   backdrop-filter: blur(75px);
+  position: relative;
+  z-index: 2;
+}
+.control-panel::before {
+  content: '';
+  display: block;
+  background-image: url(@/assets/splash.webp);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 </style>
