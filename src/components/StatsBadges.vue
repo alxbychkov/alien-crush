@@ -37,6 +37,7 @@ function getBadgeColor(multiplier) {
   padding: 4px 0;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  position: relative;
 }
 .stats-badges::-webkit-scrollbar {
   display: none;

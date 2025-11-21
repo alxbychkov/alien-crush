@@ -13,6 +13,25 @@ const router = createRouter({
       name: 'Account',
       component: () => import('../views/Account.vue'),
     },
+    {
+      path: '/deposit',
+      name: 'Deposit',
+      component: () => import('../views/Deposit.vue'),
+      // accept currency from query or params and forward as a prop
+      props: (route) => ({ currency: route.query.currency || route.params.currency || 'NUCL' }),
+    },
+    {
+      path: '/withdraw',
+      name: 'Withdraw',
+      component: () => import('../views/Withdraw.vue'),
+      // accept currency from query or params and forward as a prop
+      props: (route) => ({ currency: route.query.currency || route.params.currency || 'NUCL' }),
+    },
+    {
+      path: '/wallet',
+      name: 'Wallet',
+      component: () => import('../views/Wallet.vue'),
+    },
   ],
 })
 
