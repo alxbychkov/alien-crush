@@ -20,8 +20,7 @@ import Footer from './components/common/Footer.vue'
   min-height: 100vh;
   background: linear-gradient(216deg, #170B54 -15.84%, #170B51 -11.36%, #170A4E -6.89%, #160A4C -2.41%, #160A49 2.06%, #160947 6.53%, #160945 11.01%, #160942 15.48%, #160940 19.96%, #15093F 24.43%, #15083D 28.91%, #15083B 33.38%, #15083A 37.86%, #150839 42.33%, #150839 46.8%, #150838 51.28%, #150838 55.75%);
   color: #ffffff;
-  padding: 20px;
-  padding-bottom: 92px;
+  padding: 120px 20px 92px;
   position: relative;
   overflow: hidden;
 }
@@ -29,7 +28,7 @@ import Footer from './components/common/Footer.vue'
   content: '';
   display: block;
   width: 100%;
-  height: 300px;
+  height: 420px;
   background: linear-gradient(180deg, #000000 0%, rgba(0, 0, 0, 0) 112.86%);
   position: absolute;
   top: 0;
