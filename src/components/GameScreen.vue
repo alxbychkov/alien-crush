@@ -16,7 +16,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <StatsBadges :stats="gameStore.stats" />
+  <StatsBadges />
 
   <div class="game-area">
     <GameBalance :multiplier="gameStore.currentMultiplier" :game-state="gameStore.gameState" />

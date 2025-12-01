@@ -1,13 +1,12 @@
 <script setup>
 import './assets/styles/main.css'
-import Footer from './components/common/Footer.vue'
+
 </script>
 
 <template>
   <main class="main">
     <router-view />
   </main>
-  <Footer />
 </template>
 
 <style>

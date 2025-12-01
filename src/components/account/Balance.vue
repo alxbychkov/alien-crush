@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import QuickBets from '@/components/bet-panel/QuickBets.vue'
-import { computed, ref } from 'vue'
+import { computed, ref, onMounted } from 'vue'
+import { useWalletStore } from '@/stores/walletStore'
+
+const walletStore = useWalletStore()
 
 const props = defineProps<{
   currency: 'NUCL' | 'TON'
@@ -24,6 +27,8 @@ const balanceActionHandler = (amount: number) => {
 
   balanceValue.value = Math.round(next * 100) / 100
 }
+
+onMounted(async () => {})
 </script>
 
 <template>

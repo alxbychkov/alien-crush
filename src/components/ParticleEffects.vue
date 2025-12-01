@@ -92,7 +92,7 @@ onUnmounted(() => {
 <template>
   <div class="particle-effects">
     <!-- Фоновые звёзды -->
-    <div class="stars">
+    <!-- <div class="stars">
       <div
         v-for="star in 50"
         :key="star"
@@ -103,7 +103,7 @@ onUnmounted(() => {
           animationDelay: Math.random() * 3 + 's',
         }"
       ></div>
-    </div>
+    </div> -->
 
     <!-- Частицы -->
     <div

@@ -1,5 +1,9 @@
 <script setup lang="ts">
+import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { useWalletStore } from '@/stores/walletStore'
+
+const walletStore = useWalletStore()
 
 type Currency = 'NUCL' | 'TON'
 
@@ -17,6 +21,12 @@ const clickHandler = () => {
     router.push({ name: 'Deposit', query: { currency: props.currency } })
   }
 }
+
+onMounted(async () => {
+  if (props.currency !== 'TON') return
+
+  await walletStore.initTonConnect()
+})
 </script>
 
 <template>
@@ -31,28 +41,40 @@ const clickHandler = () => {
         <p v-else-if="currency === 'TON'" class="card-label">TON BALANCE</p>
 
         <div class="card-amount">
-          <p class="value">{{ currency === 'NUCL' ? '2,450.50' : '15.75' }}</p>
-          <p class="summary">≈ {{ currency === 'NUCL' ? '$245.05' : '$42.50' }}</p>
+          <p class="value">
+            {{ currency === 'NUCL' ? '2,450.50' : walletStore.formattedBalance }}
+          </p>
+          <p class="summary">≈ {{ currency === 'NUCL' ? '$245.05' : '$0' }}</p>
         </div>
       </div>
     </div>
-    <div v-if="actions" class="balance-action">
-      <a class="button-link" @click="clickHandler">
-        <span
-          class="button-icon"
-          :class="{ 'icon-link': currency === 'NUCL', 'icon-dep': currency === 'TON' }"
-        ></span>
-        <span class="button-caption">{{ currency === 'TON' ? 'Deposit' : 'Earn' }}</span>
-      </a>
-      <router-link
-        v-if="currency === 'TON'"
-        :to="{ name: 'Withdraw', query: { currency } }"
-        class="button-link"
-      >
-        <span class="button-icon icon-wit"></span>
-        <span class="button-caption">Withdraw</span>
-      </router-link>
-    </div>
+
+    <template v-if="currency === 'NUCL'">
+      <div class="balance-action">
+        <a class="button-link" @click="clickHandler">
+          <span class="button-icon icon-link"></span>
+          <span class="button-caption">Earn</span>
+        </a>
+      </div>
+    </template>
+    <template v-else-if="currency === 'TON'">
+      <div v-if="actions && walletStore.isConnected" class="balance-action">
+        <a class="button-link" @click="clickHandler">
+          <span class="button-icon icon-dep"></span>
+          <span class="button-caption">Deposit</span>
+        </a>
+        <router-link :to="{ name: 'Withdraw', query: { currency } }" class="button-link">
+          <span class="button-icon icon-wit"></span>
+          <span class="button-caption">Withdraw</span>
+        </router-link>
+      </div>
+      <div v-else-if="actions && !walletStore.isConnected" class="balance-action">
+        <router-link to="/wallet" class="button-link">
+          <span class="button-icon icon-wal"></span>
+          <span class="button-caption">Connect TON wallet</span>
+        </router-link>
+      </div>
+    </template>
   </div>
 </template>
 

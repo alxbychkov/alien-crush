@@ -1,44 +1,31 @@
 <script setup lang="ts">
 import ViewHead from '@/components/common/ViewHead.vue'
-import { ref, computed, onMounted } from 'vue'
+import { computed, onMounted } from 'vue'
+import { useWalletStore } from '@/stores/walletStore'
 
-let tonConnectUI = null
-const walletAddress = ref<string>('')
-const isConnected = computed(() => !!walletAddress.value)
+const walletStore = useWalletStore()
+
+const obfuscateWalletAddress = computed(() => {
+  if (walletStore.formattedAddress.length <= 12) {
+    return walletStore.formattedAddress
+  }
+
+  const firstPart = walletStore.formattedAddress.slice(0, 6)
+  const lastPart = walletStore.formattedAddress.slice(-6)
+
+  return `${firstPart}....${lastPart}`
+})
 
 const walletActionHandler = async () => {
-  await connectToWallet()
-}
-
-const connectToWallet = async () => {
-  if (!tonConnectUI) {
-    await initTonConnect()
+  if (walletStore.isConnected) {
+    walletStore.disconnect()
+  } else {
+    walletStore.connect()
   }
-  await tonConnectUI.openModal()
-}
-
-const initTonConnect = async () => {
-  const { TonConnectUI, toUserFriendlyAddress } = await import('@tonconnect/ui')
-
-  tonConnectUI = new TonConnectUI({
-    manifestUrl: 'https://alien-crush.vercel.app/tonconnect-manifest.json',
-  })
-
-  tonConnectUI.onStatusChange((walletInfo) => {
-    console.log('onStatusChange', { walletInfo })
-
-    if (walletInfo === null) {
-      // isConnected.value = false
-    }
-
-    if (walletInfo && walletInfo.account) {
-      walletAddress.value = toUserFriendlyAddress(walletInfo.account.address)
-    }
-  })
 }
 
 onMounted(async () => {
-  await initTonConnect()
+  await walletStore.initTonConnect()
 })
 </script>
 
@@ -80,7 +67,7 @@ onMounted(async () => {
 
     <div class="wallet-button" @click="walletActionHandler">
       <span class="button-icon icon-wal"></span>
-      <span>{{ isConnected ? `Disconnect ${walletAddress}` : 'Connect TON Wallet' }}</span>
+      <span>{{ walletStore.isConnected ? `Disconnect ${obfuscateWalletAddress}` : 'Connect TON Wallet' }}</span>
     </div>
 
     <div class="wallet-info">

@@ -23,14 +23,7 @@ export const useGameStore = defineStore('game', {
     history: [],
 
     // Статистика (для верхних бейджей)
-    stats: {
-      3.12: 0,
-      1.06: 0,
-      '1.00': 0,
-      1.57: 0,
-      4.35: 0,
-      2.11: 0,
-    },
+    stats: [],
   }),
 
   getters: {
@@ -40,6 +33,10 @@ export const useGameStore = defineStore('game', {
 
     potentialWin: (state) => {
       return state.betAmount * state.currentMultiplier
+    },
+
+    getStats: (state) => {
+      return state.stats.length > 1 ? state.stats.slice(0, -1) : []
     },
   },
 
@@ -83,6 +80,8 @@ export const useGameStore = defineStore('game', {
 
       // Запускаем анимацию множителя
       this.animateMultiplier()
+
+      this.updateStats(this.crashPoint)
     },
 
     // Анимация роста множителя
@@ -127,7 +126,7 @@ export const useGameStore = defineStore('game', {
       if (result.success) {
         this.balance += result.winAmount
         this.gameState = 'idle'
-        this.updateStats(this.currentMultiplier)
+        // this.updateStats(this.currentMultiplier)
         this.loadHistory()
       }
     },
@@ -145,18 +144,23 @@ export const useGameStore = defineStore('game', {
         this.currentMultiplier = 1.0
       }, 1500)
 
-      this.updateStats(this.crashPoint)
+      // this.updateStats(this.crashPoint)
       this.loadHistory()
     },
 
     // Обновление статистики
-    updateStats(multiplier) {
+    _updateStats(multiplier) {
       // Округляем до ближайшего значения из бейджей
       const rounded = Math.round(multiplier * 100) / 100
       const closest = Object.keys(this.stats).reduce((prev, curr) => {
         return Math.abs(curr - rounded) < Math.abs(prev - rounded) ? curr : prev
       })
       this.stats[closest]++
+    },
+
+    // Обновление статистики
+    updateStats(multiplier) {
+      this.stats.push(multiplier)
     },
 
     // Загрузка истории

@@ -4,6 +4,7 @@ class MockBackend {
   constructor() {
     this.currentRound = null
     this.history = []
+    this.points = []
   }
 
   // Симуляция старта раунда
@@ -20,6 +21,7 @@ class MockBackend {
       }
 
       console.log(`🎮 Round started. Crash point: ${crashPoint}x`)
+      
       resolve(this.currentRound)
     })
   }

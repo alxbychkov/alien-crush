@@ -4,6 +4,7 @@ import ActionItem from '@/components/common/ActionItem.vue'
 import SectionComponent from '@/components/common/SectionComponent.vue'
 import TransactionItem from '@/components/common/TransactionItem.vue'
 import ViewHead from '@/components/common/ViewHead.vue'
+import Footer from '@/components/common/Footer.vue'
 </script>
 
 <template>
@@ -40,6 +41,8 @@ import ViewHead from '@/components/common/ViewHead.vue'
       status="Completed"
     />
   </SectionComponent>
+
+  <Footer />
 </template>
 
 <style scoped></style>

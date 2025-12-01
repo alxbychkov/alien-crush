@@ -1,30 +1,18 @@
 <script setup>
-defineProps({
-  stats: {
-    type: Object,
-    required: true,
-  },
-})
+import { useGameStore } from '@/stores/game'
+
+const gameStore = useGameStore()
 
 function getBadgeColor(multiplier) {
-  // Разные цвета для разных множителей (из макета)
-  const colors = {
-    3.12: 'green',
-    1.06: 'red',
-    '1.00': 'red',
-    1.57: 'red',
-    4.35: 'green',
-    2.11: 'green',
-  }
-  return colors[multiplier] || 'purple'
+  return +multiplier > 2 ? 'green' : 'red'
 }
 </script>
 
 <template>
   <div class="stats-badges">
-    <div v-for="(count, multiplier) in stats" :key="multiplier" class="badge">
-      <span class="badge-icon" :class="getBadgeColor(multiplier)"></span>
-      <span class="badge-multiplier">{{ multiplier }}</span>
+    <div v-for="(count, multiplier) in gameStore.getStats" :key="multiplier" class="badge">
+      <span class="badge-icon" :class="getBadgeColor(count)"></span>
+      <span class="badge-multiplier">{{ count }}</span>
     </div>
   </div>
 </template>
@@ -49,13 +37,15 @@ function getBadgeColor(multiplier) {
   align-items: center;
   padding: 4px 8px;
   gap: 8px;
-  width: 60px;
+  width: 100%;
+  max-width: max-content;
   height: 25px;
   background: rgba(184, 140, 255, 0.18);
   border-radius: 20px;
 }
 .badge-icon {
   display: block;
+  min-width: 7px;
   width: 7px;
   height: 7px;
   border-radius: 50%;
