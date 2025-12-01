@@ -26,7 +26,7 @@ function handleChange(event) {
         </div>
         <div class="toggle-label">
           <span class="toggle-title">Auto Cashout</span>
-          <span class="toggle-subtitle">Saving the battery</span>
+          <span class="toggle-subtitle"></span>
         </div>
       </div>
 
@@ -105,7 +105,6 @@ function handleChange(event) {
 .toggle-label {
   display: flex;
   flex-direction: column;
-  gap: 2px;
 }
 
 .toggle-title {

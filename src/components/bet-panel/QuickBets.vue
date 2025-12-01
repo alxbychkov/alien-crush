@@ -1,7 +1,13 @@
 <script setup lang="ts">
-defineProps<{
-  gameState: string
-}>()
+const props = withDefaults(
+  defineProps<{
+    gameState?: string
+  }>(),
+  {
+    gameState: 'idle',
+  },
+)
+
 const emit = defineEmits<{
   (e: 'add-to-bet', amount: number): void
 }>()

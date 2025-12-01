@@ -1,10 +1,22 @@
 <script setup lang="ts">
+import { useRouter } from 'vue-router'
+
 type Currency = 'NUCL' | 'TON'
 
-defineProps<{
+const props = defineProps<{
   currency: Currency
   actions?: boolean
 }>()
+
+const router = useRouter()
+
+const clickHandler = () => {
+  if (props.currency === 'NUCL') {
+    console.log('Open link')
+  } else {
+    router.push({ name: 'Deposit', query: { currency: props.currency } })
+  }
+}
 </script>
 
 <template>
@@ -25,11 +37,18 @@ defineProps<{
       </div>
     </div>
     <div v-if="actions" class="balance-action">
-      <router-link :to="{ name: 'Deposit', query: { currency } }" class="button-link">
-        <span class="button-icon" :class="{'icon-dep': currency === 'NUCL', 'icon-wal': currency === 'TON'}"></span>
-        <span class="button-caption">Deposit</span>
-      </router-link>
-      <router-link v-if="currency === 'NUCL'" :to="{ name: 'Withdraw', query: { currency } }" class="button-link">
+      <a class="button-link" @click="clickHandler">
+        <span
+          class="button-icon"
+          :class="{ 'icon-link': currency === 'NUCL', 'icon-dep': currency === 'TON' }"
+        ></span>
+        <span class="button-caption">{{ currency === 'TON' ? 'Deposit' : 'Earn' }}</span>
+      </a>
+      <router-link
+        v-if="currency === 'TON'"
+        :to="{ name: 'Withdraw', query: { currency } }"
+        class="button-link"
+      >
         <span class="button-icon icon-wit"></span>
         <span class="button-caption">Withdraw</span>
       </router-link>
@@ -145,5 +164,9 @@ defineProps<{
 }
 .icon-wal {
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAABYlAAAWJQFJUiTwAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAFiSURBVHgB7VeLbYMwED0iBugI3qDpBPEG7QZlg3SD0gnaTgDZoBs0I7QTwAbNBu5zMeKCHIOqOxQpedLpDBzcw/eTiS4dWeymc85AWZJBm2XZfpYlHN9APp08Gv/tOQQqp4fnmM+cOTdQRb9tkJJkUAdtklYg8MDYPpIQ2Der2PMVW/MYWVoaYFg4fTR+p7nfFS0LA6kcq4j8hOEH5EDyzi11ob6H7JIE0Dx2JAgfYork1tIhoLMjkJMSQqJZGsp7M/VCIdWI8P4T5GeiHP+IiYcgJNsrHTe2MQxk6xcaIdiydUndXOGoGQkVAuugfSm/jB9ih2p+rVEFfQOzrpuwSWgQeAva50Azzj5md9Ai8A75mmknnwOIu/+zu1ANvPYNDa24hF2rQoARqWnI+PEsaPv711nAQ7Bn6xJblpEsNpMWTudMEMP6FAF/MKmcLo7OB6mj2S2lB8p/8I3qmNMjLgi/AVeavkAHJygAAAAASUVORK5CYII=);
+}
+.icon-link {
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAABYlAAAWJQFJUiTwAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAH0SURBVHgB7VZLTsMwEB3bqHQZAYtILCgLUMWG9gbhBIgbwA3gBJQTADeAEyBOQG5A2dJKhEXViE/lZWlrD04h6S9JndSs6JNaO/bE73nG4wzAfwcBg7A3yg4glNJshBD1d96oGxewae1VBB08ahlLeeDzpht0KRiCWOlZ2saMboXdFTAE/6Ppblo7VcHI/vg4kXCKBCpJ78UKsK1yCRg4kAIpJKfQq/vc88Kx1k9so/jaa7u1NPIZAZZVsops9Q5QBocpFXQYvIKn/rbj5gNy1ZyHz4hYJ4TMiJk4A0VauFSWDugiQeQ0uTp0NULZdZxt5IGh20Ee/y7sKWk1mIOu7N3rkKsTf2Gvl48hTQBhsoLhjhS5//l8CxmRRJ72ThQCBKqfRobIJwT8OTkZeNG0GGXKwgJ0dx7cE0xiVc07b/z5KRxf6CLK6vbW2DcgRG4P5I35NHJ5QId8mNZUPgR9la5Vzj0et1ZmD+juPEhr1ZSCX5EVDpPWyxMCLbfrpnVmAQTwShURHCWe5on5NDKfgXancaaaMzAEYwXJUsBSQBpQEJ40N8oCAW4kB6GmCojFSnaU0X1B4OspyWyCxF7feQAkDhgF3vidxknS7GRNKPpHqrkBY9zodmU/9c6IdXPwIaGA+5Jh7iqJiL7b5i+vsMQcfAOmpOYpoHMTyAAAAABJRU5ErkJggg==);
+  filter: invert(1);
 }
 </style>

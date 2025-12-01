@@ -1,4 +1,4 @@
-import { init, backButton, hapticFeedback, themeParams, viewport } from '@telegram-apps/sdk'
+import { init, backButton, hapticFeedback, themeParams, viewport } from '@tma.js/sdk-vue'
 
 class TelegramService {
   constructor() {
