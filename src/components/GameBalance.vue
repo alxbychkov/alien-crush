@@ -1,22 +1,11 @@
 <script setup>
 import { computed } from 'vue'
-import { useGameStore } from '@/stores/game'
-
-const props = defineProps({
-  multiplier: {
-    type: Number,
-    default: 1.0,
-  },
-  gameState: {
-    type: String,
-    default: 'idle',
-  },
-})
+import { useGameStore } from '@/stores/gameStore'
 
 const gameStore = useGameStore()
 
 const displayMultiplier = computed(() => {
-  return props.multiplier.toFixed(2) + 'X'
+  return gameStore.currentMultiplier.toFixed(2) + 'X'
 })
 
 const formatBalance = (value) => {
@@ -31,7 +20,10 @@ const formatBalance = (value) => {
   </div>
   <div
     class="multiplier"
-    :class="{ active: gameState === 'flying', crashed: gameState === 'crashed' }"
+    :class="{
+      active: gameStore.gameState === 'flying',
+      crashed: gameStore.gameState === 'crashed',
+    }"
   >
     <div class="multiplier-icon"></div>
     <span class="multiplier-value">{{ displayMultiplier }}</span>
@@ -67,18 +59,15 @@ const formatBalance = (value) => {
   align-items: center;
   justify-content: center;
   gap: 10px;
+  position: relative;
+  padding-left: 60px;
 }
 
-.multiplier.active {
-  color: #a78bfa;
-  text-shadow: 0 0 30px rgba(167, 139, 250, 0.8);
-  animation: pulse 0.5s ease-in-out infinite;
-}
-.multiplier.crashed {
-  color: #ef4444;
-  text-shadow: 0 0 30px rgba(239, 68, 68, 0.8);
-}
 .multiplier-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 50px;
   width: 60px;
   height: 60px;
   background-image: url(@/assets/nucl_icon.webp);
@@ -94,6 +83,15 @@ const formatBalance = (value) => {
   line-height: 80%;
   text-transform: uppercase;
   color: #ffffff;
+}
+.multiplier.active .multiplier-value {
+  color: #a78bfa;
+  text-shadow: 0 0 30px rgba(167, 139, 250, 0.8);
+  animation: pulse 0.5s ease-in-out infinite;
+}
+.multiplier.crashed .multiplier-value {
+  color: #ef4444;
+  text-shadow: 0 0 30px rgba(239, 68, 68, 0.8);
 }
 @keyframes pulse {
   0%,

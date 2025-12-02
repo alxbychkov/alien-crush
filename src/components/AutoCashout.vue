@@ -1,27 +1,18 @@
 <script setup>
-defineProps({
-  enabled: {
-    type: Boolean,
-    default: false,
-  },
-  value: {
-    type: Number,
-    default: 2.0,
-  },
-})
+import { useGameStore } from '@/stores/gameStore'
 
-const emit = defineEmits(['toggle', 'change'])
+const gameStore = useGameStore()
 
-function handleChange(event) {
-  emit('change', parseFloat(event.target.value))
+const handleChange = (event) => {
+  gameStore.setAutoCashoutValue(parseFloat(event.target.value))
 }
 </script>
 
 <template>
   <div class="auto-cashout">
     <div class="auto-cashout-header">
-      <div class="toggle-wrapper" @click="$emit('toggle')">
-        <div class="toggle" :class="{ active: enabled }">
+      <div class="toggle-wrapper" @click="gameStore.toggleAutoCashout">
+        <div class="toggle" :class="{ active: gameStore.autoCashoutEnabled }">
           <div class="toggle-slider"></div>
         </div>
         <div class="toggle-label">
@@ -30,7 +21,9 @@ function handleChange(event) {
         </div>
       </div>
 
-      <div class="cashout-value" :class="{ active: enabled }">{{ value.toFixed(2) }}X</div>
+      <div class="cashout-value" :class="{ active: gameStore.autoCashoutEnabled }">
+        {{ gameStore.autoCashoutValue.toFixed(2) }}X
+      </div>
     </div>
 
     <!-- Слайдер для настройки значения (показывается, если включен) -->
@@ -38,7 +31,7 @@ function handleChange(event) {
       <input
         type="range"
         class="slider"
-        :value="value"
+        :value="gameStore.autoCashoutValue"
         min="1.01"
         max="10"
         step="0.01"
@@ -137,7 +130,8 @@ function handleChange(event) {
   text-shadow: 0px 0px 10px rgba(252, 227, 6, 0.7);
 }
 
-.cashout-value.active {}
+.cashout-value.active {
+}
 
 /* Слайдер */
 .slider-container {

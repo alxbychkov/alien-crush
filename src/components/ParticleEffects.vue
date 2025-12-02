@@ -1,12 +1,8 @@
 <script setup>
 import { ref, watch, onMounted, onUnmounted } from 'vue'
+import { useGameStore } from '@/stores/gameStore'
 
-const props = defineProps({
-  gameState: {
-    type: String,
-    default: 'idle',
-  },
-})
+const gameStore = useGameStore()
 
 const showConfetti = ref(false)
 const particles = ref([])
@@ -14,7 +10,7 @@ let animationId = null
 
 // Показываем конфетти при кэшауте
 watch(
-  () => props.gameState,
+  () => gameStore.gameState,
   (newState, oldState) => {
     if (oldState === 'flying' && newState === 'idle') {
       showConfetti.value = true
@@ -46,7 +42,7 @@ const createParticle = (type) => {
 
 // Анимация частиц
 const animate = () => {
-  if (props.gameState === 'flying') {
+  if (gameStore.gameState === 'flying') {
     // Добавляем огонь
     if (Math.random() < 0.3) {
       particles.value.push(createParticle('fire'))

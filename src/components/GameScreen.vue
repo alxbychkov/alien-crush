@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted } from 'vue'
-import { useGameStore } from '@/stores/game'
+import { useGameStore } from '@/stores/gameStore'
 import StatsBadges from './StatsBadges.vue'
 import AlienAnimation from './AlienAnimation.vue'
 import GameBalance from './GameBalance.vue'
@@ -19,15 +19,15 @@ onMounted(() => {
   <StatsBadges />
 
   <div class="game-area">
-    <GameBalance :multiplier="gameStore.currentMultiplier" :game-state="gameStore.gameState" />
-    <AlienAnimation :game-state="gameStore.gameState" />
+    <GameBalance />
+    <AlienAnimation />
   </div>
 
   <ControlPanel />
 
   <PlayersCount />
 
-  <ParticleEffects :game-state="gameStore.gameState" />
+  <ParticleEffects />
 </template>
 
 <style scoped>

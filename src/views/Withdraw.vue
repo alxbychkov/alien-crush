@@ -14,4 +14,3 @@ defineProps<{ currency: 'NUCL' | 'TON' }>()
   <Balance :currency action="withdraw"/>
 </template>
 
-<style scoped></style>

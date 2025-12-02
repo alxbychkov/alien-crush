@@ -1,32 +1,16 @@
 <script setup>
 import { computed } from 'vue'
 import QuickBets from './bet-panel/QuickBets.vue'
+import { useGameStore } from '@/stores/gameStore'
 
-const props = defineProps({
-  betAmount: {
-    type: Number,
-    required: true,
-  },
-  gameState: {
-    type: String,
-    default: 'idle',
-  },
-  canBet: {
-    type: Boolean,
-    default: false,
-  },
-})
+const gameStore = useGameStore()
 
-const emit = defineEmits(['update:bet', 'start', 'cashout'])
-
-const displayBet = computed(() => {
-  return props.betAmount.toFixed(2)
-})
+const btnValueAmount = computed(() => Math.round(gameStore.betAmount * 100) / 100)
 
 const btnText = computed(() => {
-  switch (props.gameState) {
+  switch (gameStore.gameState) {
     case 'idle':
-      return `Bet ${displayBet.value} nucl`
+      return `Bet ${btnValueAmount.value} nucl`
     case 'betting':
       return 'Starting...'
     case 'flying':
@@ -40,34 +24,43 @@ const btnText = computed(() => {
 
 const btnClass = computed(() => {
   return {
-    idle: props.gameState === 'idle',
-    flying: props.gameState === 'flying',
-    crashed: props.gameState === 'crashed',
-    disabled: !props.canBet && props.gameState === 'idle',
+    idle: gameStore.gameState === 'idle',
+    flying: gameStore.gameState === 'flying',
+    crashed: gameStore.gameState === 'crashed',
+    disabled: !gameStore.canPlaceBet && gameStore.gameState === 'idle',
   }
 })
 
 function handleInput(event) {
   const value = parseFloat(event.target.value) || 0
-  emit('update:bet', value)
+
+  gameStore.setBetAmount(value)
 }
 
-function addToBet(amount) {
-  emit('update:bet', props.betAmount + amount)
+function handleBlur(event) {
+  const value = parseFloat(event.target.value) || 0.15
+
+  gameStore.setBetAmount(value)
+}
+
+function addToBetHandler(amount) {
+  const value = gameStore.betAmount + amount
+
+  gameStore.setBetAmount(Math.round(value * 100) / 100)
 }
 
 function handleAction() {
-  if (props.gameState === 'idle') {
-    emit('start')
-  } else if (props.gameState === 'flying') {
-    emit('cashout')
+  if (gameStore.gameState === 'idle') {
+    gameStore.startRound()
+  } else if (gameStore.gameState === 'flying') {
+    gameStore.cashout()
   }
 }
 </script>
 
 <template>
   <div class="bet-panel">
-    <QuickBets :game-state="gameState" @add-to-bet="addToBet" />
+    <QuickBets @action="addToBetHandler" />
 
     <!-- Кастомная ставка -->
     <div class="custom-bet">
@@ -76,9 +69,10 @@ function handleAction() {
         <input
           type="number"
           class="bet-input"
-          :value="displayBet"
+          :value="gameStore.betAmount"
           @input="handleInput"
-          :disabled="gameState !== 'idle'"
+          @blur="handleBlur"
+          :disabled="gameStore.gameState !== 'idle'"
           step="0.01"
           min="0.01"
         />
@@ -89,11 +83,11 @@ function handleAction() {
       class="action-btn"
       :class="btnClass"
       @click="handleAction"
-      :disabled="!canBet && gameState === 'idle'"
+      :disabled="!gameStore.canPlaceBet && gameStore.gameState === 'idle'"
     >
-      <span class="nucl-icon" v-if="gameState === 'idle'"></span>
-      <span class="made-bet" v-if="gameState === 'flying'"></span>
-      <span class="cancel-bet" v-if="gameState === 'crashed'"></span>
+      <span class="nucl-icon" v-if="gameStore.gameState === 'idle'"></span>
+      <span class="made-bet" v-if="gameStore.gameState === 'flying'"></span>
+      <span class="cancel-bet" v-if="gameStore.gameState === 'crashed'"></span>
       {{ btnText }}
     </button>
   </div>

@@ -1,30 +1,28 @@
 <script setup lang="ts">
-const props = withDefaults(
-  defineProps<{
-    gameState?: string
-  }>(),
-  {
-    gameState: 'idle',
-  },
-)
+import { computed } from 'vue'
+import { useGameStore } from '@/stores/gameStore'
+
+const gameStore = useGameStore()
 
 const emit = defineEmits<{
-  (e: 'add-to-bet', amount: number): void
+  (e: 'action', amount: number): void
 }>()
+
+const isDisableble = computed(() => gameStore.gameState !== 'idle')
+
+const quickHandler = (value: number) => {
+  emit('action', value)
+}
 </script>
 <template>
   <div class="quick-bets">
-    <button class="quick-bet-btn" @click="emit('add-to-bet', 0.1)" :disabled="gameState !== 'idle'">
+    <button class="quick-bet-btn" @click="quickHandler(0.1)" :disabled="isDisableble">
       <span class="nucl"></span> <span>0.1 nucl</span>
     </button>
-    <button
-      class="quick-bet-btn"
-      @click="emit('add-to-bet', 0.25)"
-      :disabled="gameState !== 'idle'"
-    >
+    <button class="quick-bet-btn" @click="quickHandler(0.25)" :disabled="isDisableble">
       <span class="nucl"></span> <span>0.25 nucl</span>
     </button>
-    <button class="quick-bet-btn" @click="emit('add-to-bet', 0.5)" :disabled="gameState !== 'idle'">
+    <button class="quick-bet-btn" @click="quickHandler(0.5)" :disabled="isDisableble">
       <span class="nucl"></span> <span>0.5 nucl</span>
     </button>
   </div>

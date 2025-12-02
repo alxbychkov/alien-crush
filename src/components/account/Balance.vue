@@ -36,7 +36,7 @@ onMounted(async () => {})
     <div class="quick-actions-wrapper">
       <div class="quick-title">Quick Select</div>
 
-      <QuickBets @add-to-bet="balanceActionHandler" />
+      <QuickBets @action="balanceActionHandler" />
     </div>
 
     <div class="amount-wrapper">
