@@ -19,7 +19,7 @@ class TelegramService {
       }
 
       // Настраиваем viewport (полный экран)
-      viewport.expand()
+      await toggleFullscreen()
 
       // Применяем тему Telegram
       this.applyTheme()
@@ -27,6 +27,23 @@ class TelegramService {
       console.log('Telegram SDK initialized:', this.user)
     } catch (error) {
       console.warn('Telegram SDK not available, running in browser mode')
+    }
+  }
+
+  async toggleFullscreen() {
+    if (viewport.mount.isAvailable()) {
+      await viewport.mount();
+    }
+
+    if (viewport.requestFullscreen.isAvailable()) {
+      try {
+        await viewport.requestFullscreen();
+        console.log("App is now in true fullscreen!");
+      } catch (err) {
+        console.error("Fullscreen request failed", err);
+      }
+    } else {
+      viewport.expand();
     }
   }
 

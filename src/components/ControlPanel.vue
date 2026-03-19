@@ -9,9 +9,9 @@ import BetPanel from './BetPanel.vue'
       <AutoCashout />
       <BetPanel />
     </div>
-    <div class="splash">
+    <!-- <div class="splash">
       <img src="@/assets/splash.webp" alt="splash" />
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -24,7 +24,7 @@ import BetPanel from './BetPanel.vue'
   border-radius: 30px;
   background: rgba(137, 137, 137, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.09);
-  backdrop-filter: blur(75px);
+  /* backdrop-filter: blur(75px); */
   position: relative;
   z-index: 2;
 }
