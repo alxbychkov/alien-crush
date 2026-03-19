@@ -14,6 +14,7 @@ html, body {
     /* Запрещаем "резиновый" скролл (bounce effect) на iOS */
     overflow: hidden;
     position: fixed;
+    touch-action: none;
 }
 
 /* 2. Настраиваем шрифты и сглаживание */
@@ -47,6 +48,8 @@ input, textarea, [contenteditable="true"] {
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     box-sizing: border-box;
+    /* Разрешаем касания только внутри этого контейнера */
+    touch-action: pan-y;
 }
 
 /* 5. Убираем синие границы фокуса (особенно на кнопках) */
